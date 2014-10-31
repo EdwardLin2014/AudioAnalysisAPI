@@ -10,8 +10,13 @@
 
 @implementation GameScene
 
--(void)didMoveToView:(SKView *)view {
+-(void)didMoveToView:(SKView *)view
+{
     /* Setup your scene here */
+    
+    
+    
+    /*
     SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     
     myLabel.text = @"Hello, World!";
@@ -20,12 +25,15 @@
                                    CGRectGetMidY(self.frame));
     
     [self addChild:myLabel];
+     */
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
     /* Called when a touch begins */
-    
-    for (UITouch *touch in touches) {
+    /*
+    for (UITouch *touch in touches)
+    {
         CGPoint location = [touch locationInNode:self];
         
         SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
@@ -40,6 +48,7 @@
         
         [self addChild:sprite];
     }
+    */
 }
 
 -(void)update:(CFTimeInterval)currentTime {
