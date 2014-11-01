@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "AudioAnalyzer.h"
 
 @interface GameScene : SKScene
 

@@ -52,57 +52,25 @@
     
     // Check File Size in Bytes
     UInt32 fileSize = 0;
-    UInt32 FileSize = 0;
     if(!(retval._errCode = AudioFileGetPropertyInfo(AudioFileID,kAudioFilePropertyAudioDataByteCount,&fileSize,0)))
     {
-        if((retval._errCode = AudioFileGetProperty(AudioFileID,kAudioFilePropertyAudioDataByteCount,&fileSize,&FileSize)))
+        if((retval._errCode = AudioFileGetProperty(AudioFileID,kAudioFilePropertyAudioDataByteCount,&fileSize,&retval._FileSize)))
             return retval;
     }
     else
         return retval;
     
     // Obtain the audio samples from wave file
-    int16_t *data16 = (int16_t*) malloc(FileSize);
-    retval._samples = (Float32*) malloc(FileSize*2);
+    int16_t *data16 = (int16_t*) malloc(retval._FileSize);
+    retval._samples = (Float32*) malloc(retval._FileSize*2);
     
-    if((retval._errCode = AudioFileReadBytes(AudioFileID, false, 0, &FileSize, data16)))
+    if((retval._errCode = AudioFileReadBytes(AudioFileID, false, 0, &retval._FileSize, data16)))
         return retval;
     
-    for (int i=0; i<FileSize/2; i++)
+    for (int i=0; i<retval._FileSize/2; i++)
         retval._samples[i] = (Float32)data16[i]/(Float32)32768;
     
-    // Output audio samples to text file
-    /*
-    if ([outFileName length] != 0)
-    {
-        NSString* DocDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString* outputFileAtPath = [DocDirectory stringByAppendingPathComponent:outFileName];
-        
-        NSLog(@"Document Path: %@", DocDirectory);
-        NSLog(@"File Path: %@", outputFileAtPath);
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:outputFileAtPath])
-            [[NSFileManager defaultManager] createFileAtPath:outputFileAtPath contents:nil attributes:nil];
-        
-        for (int i=0; i<FileSize/2; i++)
-        {
-            NSString* samples = [NSString stringWithFormat: @"%.15f\n", retval._samples[i]];
-            
-            if (i==0)
-                [samples writeToFile:outputFileAtPath atomically:NO encoding:NSUTF8StringEncoding error:nil];
-            else
-            {
-                // append
-                NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:outputFileAtPath];
-                [handle seekToEndOfFile];
-                [handle writeData:[samples dataUsingEncoding:NSUTF8StringEncoding]];
-                [handle closeFile];
-            }
-        }
-    }
-    */
-
-    memset(data16,0,FileSize);
+    memset(data16,0,retval._FileSize);
     free(data16);
     
     return retval;

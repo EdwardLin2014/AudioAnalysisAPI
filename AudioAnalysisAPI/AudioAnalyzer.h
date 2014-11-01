@@ -20,13 +20,16 @@
 
 typedef struct
 {
-    float* _samples;
-    int    _samplesRate;
-    int    _errCode;
+    float*      _samples;
+    int         _samplesRate;
+    UInt32      _FileSize;
+    int         _errCode;
 } AudioReadOutput;
 
+//----------------------------- Class Method ---------------------------- Begin //
 + (AudioReadOutput)audioread:(NSString*)inFileName;
 + (Float32*)abs_fft:(Float32*)samples FFTLength:(int)FFTLength;
 + (Float32*)abs_rcep:(Float32*)samples FFTLength:(int)FFTLength;
+//----------------------------- Class Method ---------------------------- End //
 
 @end
